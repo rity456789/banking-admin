@@ -17,7 +17,7 @@ class LoginComponent extends Component {
                     <div className="col">
                       <div className="p-5">
                         <div className="text-center">
-                          <h1 className="h4 text-gray-900 mb-4">LOGIN</h1>
+                          <h1 className="h4 text-gray-900 mb-4">ADMIN LOGIN</h1>
                         </div>
                         <form className="user">
                           <div className="form-group">
@@ -45,6 +45,11 @@ class LoginComponent extends Component {
                           </a>
                         </form>
                         <hr />
+                        <div className="text-center">
+                          <a className="small" href="forgot-password.html">
+                            Forgot Password?
+                          </a>
+                        </div>
                         <div className="text-center">
                           <NavLink className="small" to="/register">
                             Create an Account!
