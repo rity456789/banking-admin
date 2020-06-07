@@ -13,11 +13,7 @@ function App() {
       <BrowserRouter>
         <Switch>
           <LoginRoute path="/login" exact component={Login}></LoginRoute>
-          <PrivateRoute
-            path="/dashboard"
-            exact
-            component={Dashboard}
-          ></PrivateRoute>
+          <Route path="/dashboard" exact component={Dashboard}></Route>
           <Redirect to="/login" />
         </Switch>
       </BrowserRouter>
