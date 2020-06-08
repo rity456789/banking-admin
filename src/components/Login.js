@@ -1,8 +1,49 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { NavLink } from "react-router-dom";
+import { withRouter } from "react-router-dom";
+import { DoLogIn } from "../actions/Login.action";
 
 class LoginComponent extends Component {
+  constructor(props) {
+    super(props);
+
+    this.handleSubmit = this.handleSubmit.bind(this); // handle submit
+  }
+
+  handleSubmit(e) {
+    e.preventDefault();
+
+    let user = {
+      username: "",
+      password: "",
+    };
+    user.username = this.refs.username.value;
+    user.password = this.refs.password.value;
+    console.log(user);
+    let { onLogin } = this.props;
+    onLogin(user);
+  }
+
+  generateNotice() {
+    let { status, message, loading } = this.props.LoginReducer;
+
+    if (status === -1) {
+      // Thất bại
+      return <div className="alert alert-danger mb-3">{message}</div>;
+    } else if (loading === true) {
+      return (
+        <div class="d-flex justify-content-center">
+          <div class="spinner-border text-primary" role="status">
+            <span class="sr-only">Loading...</span>
+          </div>
+        </div>
+      );
+    } else {
+      return;
+    }
+  }
+
   render() {
     return (
       <div>
@@ -19,37 +60,36 @@ class LoginComponent extends Component {
                         <div className="text-center">
                           <h1 className="h4 text-gray-900 mb-4">ADMIN LOGIN</h1>
                         </div>
-                        <form className="user">
+                        <form className="user" onSubmit={this.handleSubmit}>
                           <div className="form-group">
                             <input
-                              type="email"
+                              type="text"
                               className="form-control form-control-user"
-                              id="exampleInputEmail"
-                              aria-describedby="emailHelp"
+                              id="username"
+                              name="username"
                               placeholder="Username"
+                              ref="username"
                             />
                           </div>
                           <div className="form-group">
                             <input
                               type="password"
                               className="form-control form-control-user"
-                              id="exampleInputPassword"
+                              name="password"
+                              id="password"
                               placeholder="Password"
+                              ref="password"
                             />
                           </div>
-                          <a
-                            href="index.html"
+                          {this.generateNotice()}
+                          <button
                             className="btn btn-primary btn-user btn-block mt-5 font-weight-bold font-20"
+                            type="submit"
                           >
                             Login
-                          </a>
+                          </button>
                         </form>
                         <hr />
-                        <div className="text-center">
-                          <a className="small" href="forgot-password.html">
-                            Forgot Password?
-                          </a>
-                        </div>
                         <div className="text-center">
                           <NavLink className="small" to="/register">
                             Create an Account!
@@ -73,9 +113,15 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => {
-  return {};
+  return {
+    onLogin: (user) => {
+      dispatch(DoLogIn(user));
+    },
+  };
 };
 
-const Login = connect(mapStateToProps, mapDispatchToProps)(LoginComponent);
+const Login = withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(LoginComponent)
+);
 
 export default Login;
