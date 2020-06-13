@@ -14,7 +14,7 @@ function App() {
         <Switch>
           <LoginRoute path="/login" exact component={Login}></LoginRoute>
           <Route path="/dashboard" exact component={Dashboard}></Route>
-          <Redirect to="/login" />
+          {/* <Redirect to="/login" /> */}
         </Switch>
       </BrowserRouter>
     </div>

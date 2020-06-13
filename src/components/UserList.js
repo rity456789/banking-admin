@@ -1,8 +1,54 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
+import { loadData } from "../actions/User.action";
 
-export default class UserList extends Component {
+class UserListComponent extends Component {
   constructor(props) {
     super(props);
+    this.generateUserData();
+  }
+
+  detailClick(id) {
+    console.log("detail click: ", id);
+  }
+
+  addNewUser() {
+    console.log("add new user");
+  }
+
+  generateUserData() {
+    let { onLoadData } = this.props;
+    onLoadData(null);
+  }
+
+  generateContent() {
+    let { returnData, status, message, loading } = this.props.UsersReducer;
+    let content = [];
+    console.log("data in comp");
+    console.log(returnData);
+    for (let e of returnData) {
+      let imgSrc = e.avatarLink;
+      if (imgSrc === "") {
+        imgSrc =
+          "https://scontent.xx.fbcdn.net/v/t1.0-1/c15.0.50.50a/p50x50/10645251_10150004552801937_4553731092814901385_n.jpg?_nc_cat=1&_nc_ohc=hnKkw-bKtIkAQlIhz4gzarCWd3tTja6CU5x12XZnI2YTuW9TiBuSlIBlQ&_nc_ht=scontent.xx&oh=64b6c755de54ecae67c9742219d23174&oe=5E7F1EA8";
+      }
+      console.log(e);
+      content.push(
+        <tr key={e.id}>
+          <td>{e.id}</td>
+          <td>
+            <img height={50} width={50} alt="user-avatar" src={imgSrc}></img>
+          </td>
+          <td>{e.name}</td>
+          <td>{e.email}</td>
+          <td>{e.phone}</td>
+          <td className="cursor-pointer" onClick={() => this.detailClick(e.id)}>
+            <i className="fa fa-angle-right"></i>
+          </td>
+        </tr>
+      );
+    }
+    return content;
   }
 
   render() {
@@ -10,7 +56,7 @@ export default class UserList extends Component {
       <div className="container-fluid">
         {/* Page Heading */}
         <h1 className="h3 mb-2 text-gray-800">Users table</h1>
-        <p className="mb-4">Users list of people who use UBER TUTOR</p>
+        <p className="mb-4">Users list of people who use INTERNET BANKING</p>
         {/* DataTales Example */}
         <div className="card shadow mb-4">
           <div className="card-header py-3">
@@ -55,7 +101,7 @@ export default class UserList extends Component {
                     <th></th>
                   </tr>
                 </thead>
-                <tbody></tbody>
+                <tbody>{this.generateContent()}</tbody>
               </table>
             </div>
           </div>
@@ -64,3 +110,22 @@ export default class UserList extends Component {
     );
   }
 }
+
+const mapStateToProps = (state) => {
+  return state;
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onLoadData: (queryOption) => {
+      dispatch(loadData(queryOption));
+    },
+  };
+};
+
+const UserList = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(UserListComponent);
+
+export default UserList;
