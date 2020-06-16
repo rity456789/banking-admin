@@ -5,7 +5,8 @@ import { PrivateRoute, LoginRoute } from "./components/Routes";
 
 import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 import Login from "./components/Login";
-import Dashboard from "./components/Dashboard";
+import MainDashboard from "./components/MainDashboard";
+import UserList from "./components/UserList";
 
 function App() {
   return (
@@ -13,8 +14,13 @@ function App() {
       <BrowserRouter>
         <Switch>
           <LoginRoute path="/login" exact component={Login}></LoginRoute>
-          <Route path="/dashboard" exact component={Dashboard}></Route>
-          {/* <Redirect to="/login" /> */}
+          <PrivateRoute
+            path="/dashboard"
+            exact
+            component={MainDashboard}
+          ></PrivateRoute>
+          <PrivateRoute path="/users" exact component={UserList}></PrivateRoute>
+          <Redirect to="/login" />
         </Switch>
       </BrowserRouter>
     </div>

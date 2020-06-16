@@ -1,5 +1,8 @@
 import React from "react";
 import { Route, Redirect } from "react-router-dom";
+import Slidebar from "./Slidebar";
+import TopBar from "./Topbar";
+import Footer from "./Footer";
 
 export const PrivateRoute = ({ component: Component, ...rest }) => {
   return (
@@ -13,7 +16,21 @@ export const PrivateRoute = ({ component: Component, ...rest }) => {
                 */
         //if (user && user.user !== false && setupTime - now < 6 * 60 * 60 * 1000) {
         if (user) {
-          return <Component {...props}></Component>;
+          return (
+            <div id="page-top">
+              <div id="wrapper">
+                <Slidebar></Slidebar>
+                {/* Content Wrapper */}
+                <div id="content-wrapper" className="d-flex flex-column">
+                  <TopBar></TopBar>
+                  <div id="content">
+                    <Component {...props}></Component>
+                  </div>
+                </div>
+                {/* End of Content Wrapper */}
+              </div>
+            </div>
+          );
         } else {
           localStorage.removeItem("user");
           return (
