@@ -10,9 +10,9 @@ let axios = Axios.create({
 // Add a request interceptor
 axios.interceptors.request.use(function (config) {
   //get token
-  let token = localStorage.getItem("token");
-  if (token) token = token.slice(1, -1);
-  config.headers.Authorization = token ? `Bearer ${token}` : "";
+  let token = localStorage.getItem("ACCESS_TOKEN_KEY");
+  config.headers.authorization = token ? `Bearer ${token}` : "";
+  config.headers.x_accessToken = token ? token : "";
   return config;
 });
 
@@ -27,8 +27,8 @@ axios.interceptors.response.use(
       // alert(error.response);
       alert("Đăng nhập đi ba");
 
-      localStorage.setItem("user", null);
-      localStorage.setItem("token", null);
+      localStorage.setItem("ACCESS_TOKEN_KEY", null);
+      localStorage.setItem("REFRESH_TOKEN_KEY", null);
 
       // history.push("/login");
       window.location.href = "./login";

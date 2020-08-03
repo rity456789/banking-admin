@@ -1,9 +1,13 @@
 import axios from "../ultis/axios";
 
 function login(user) {
-  return axios.post("/login", {
+  return axios.post("/api/auth/login", {
     ...user,
   });
 }
 
-export { login };
+function getUserInfo() {
+  return axios.post("/api/users/me");
+}
+
+export { login, getUserInfo };

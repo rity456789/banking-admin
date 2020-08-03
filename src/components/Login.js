@@ -25,26 +25,8 @@ class LoginComponent extends Component {
     onLogin(user);
   }
 
-  generateNotice() {
-    let { status, message, loading } = this.props.LoginReducer;
-
-    if (status === -1) {
-      // Thất bại
-      return <div className="alert alert-danger mb-3">{message}</div>;
-    } else if (loading === true) {
-      return (
-        <div class="d-flex justify-content-center">
-          <div class="spinner-border text-primary" role="status">
-            <span class="sr-only">Loading...</span>
-          </div>
-        </div>
-      );
-    } else {
-      return;
-    }
-  }
-
   render() {
+    let { isLoading } = this.props.LoginReducer;
     return (
       <div>
         <div className="container">
@@ -81,7 +63,18 @@ class LoginComponent extends Component {
                               ref="password"
                             />
                           </div>
-                          {this.generateNotice()}
+                          {isLoading ? (
+                            <div class="d-flex justify-content-center">
+                              <div
+                                class="spinner-border text-primary"
+                                role="status"
+                              >
+                                <span class="sr-only">Loading...</span>
+                              </div>
+                            </div>
+                          ) : (
+                            ""
+                          )}
                           <button
                             className="btn btn-primary btn-user btn-block mt-5 font-weight-bold font-20"
                             type="submit"
@@ -90,11 +83,11 @@ class LoginComponent extends Component {
                           </button>
                         </form>
                         <hr />
-                        <div className="text-center">
+                        {/* <div className="text-center">
                           <NavLink className="small" to="/register">
                             Create an Account!
                           </NavLink>
-                        </div>
+                        </div> */}
                       </div>
                     </div>
                   </div>

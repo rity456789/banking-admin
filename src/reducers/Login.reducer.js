@@ -2,6 +2,7 @@ const initState = {
   status: 0,
   message: "",
   loading: false,
+  userInfo: {},
 };
 
 const LoginReducer = (state = initState, action) => {
@@ -26,6 +27,11 @@ const LoginReducer = (state = initState, action) => {
         status: -1,
         message: action.message,
         loading: false,
+      };
+    case "GET_USER_INFO_SUCCESS":
+      return {
+        ...state,
+        userInfo: action.userInfo,
       };
     default:
       return state;

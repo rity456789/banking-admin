@@ -1,7 +1,14 @@
 import React, { Component } from "react";
 import { NavLink } from "react-router-dom";
+import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
+import { doGetUserInfo } from "../actions/Login.action";
 
-export default class Slidebar extends Component {
+class SlidebarComponent extends Component {
+  componentWillMount() {
+    let { getUserInfo } = this.props;
+    getUserInfo();
+  }
   render() {
     return (
       <div>
@@ -15,7 +22,7 @@ export default class Slidebar extends Component {
             className="sidebar-brand d-flex align-items-center justify-content-center"
             to="/dashboard"
           >
-            <div className="sidebar-brand-text mx-3">UBER TUTOR</div>
+            <div className="sidebar-brand-text mx-3">Banking</div>
           </NavLink>
           {/* Divider */}
           <hr className="sidebar-divider my-0" />
@@ -50,3 +57,21 @@ export default class Slidebar extends Component {
     );
   }
 }
+
+const mapStateToProps = (state) => {
+  return state;
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    getUserInfo: () => {
+      dispatch(doGetUserInfo());
+    },
+  };
+};
+
+const Slidebar = withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(SlidebarComponent)
+);
+
+export default Slidebar;
