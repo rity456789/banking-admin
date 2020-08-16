@@ -1,18 +1,16 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
+import { doGetUserInfo } from "../actions/Login.action";
 
-export default class Topbar extends Component {
-  user;
-  imageSrc = "";
-
+class TopbarComponent extends Component {
   componentWillMount() {
-    this.initData();
-  }
-
-  initData() {
-    this.imageSrc =
-      "https://scontent.xx.fbcdn.net/v/t1.0-1/c15.0.50.50a/p50x50/10645251_10150004552801937_4553731092814901385_n.jpg?_nc_cat=1&_nc_ohc=hnKkw-bKtIkAQlIhz4gzarCWd3tTja6CU5x12XZnI2YTuW9TiBuSlIBlQ&_nc_ht=scontent.xx&oh=64b6c755de54ecae67c9742219d23174&oe=5E7F1EA8";
+    let { getUserInfo } = this.props;
+    getUserInfo();
   }
   render() {
+    let { userInfo } = this.props.LoginReducer;
+
     return (
       <nav className="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
         {/* Sidebar Toggle (Topbar) */}
@@ -30,7 +28,6 @@ export default class Topbar extends Component {
           <li className="nav-item dropdown no-arrow">
             <a
               className="nav-link dropdown-toggle"
-              href="#"
               id="userDropdown"
               role="button"
               data-toggle="dropdown"
@@ -38,7 +35,7 @@ export default class Topbar extends Component {
               aria-expanded="false"
             >
               <span className="mr-3 d-none d-lg-inline text-gray-600 small">
-                BInhf
+                Welcome {userInfo.name}
               </span>
               <div
                 className="dropdown-item cursor-pointer"
@@ -58,3 +55,21 @@ export default class Topbar extends Component {
     );
   }
 }
+
+const mapStateToProps = (state) => {
+  return state;
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    getUserInfo: () => {
+      dispatch(doGetUserInfo());
+    },
+  };
+};
+
+const Topbar = withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(TopbarComponent)
+);
+
+export default Topbar;

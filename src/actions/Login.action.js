@@ -9,8 +9,6 @@ export const DoLogIn = (user) => {
         console.log(res.data);
         if (res.data.returnCode === 0) {
           dispatch(failure(res.data.message));
-        } else if (res.returnCode === 1) {
-          dispatch(failure(res.data.message));
         } else {
           dispatch(success(res.data.message));
           localStorage.setItem("ACCESS_TOKEN_KEY", res.data.data.accessToken);

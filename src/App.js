@@ -7,6 +7,7 @@ import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 import Login from "./components/Login";
 import MainDashboard from "./components/MainDashboard";
 import UserList from "./components/UserList";
+import Dealing from "./components/Dealing";
 
 function App() {
   return (
@@ -20,6 +21,12 @@ function App() {
             component={MainDashboard}
           ></PrivateRoute>
           <PrivateRoute path="/users" exact component={UserList}></PrivateRoute>
+          <PrivateRoute
+            path="/dealings"
+            exact
+            component={Dealing}
+          ></PrivateRoute>
+
           <Redirect to="/login" />
         </Switch>
       </BrowserRouter>
