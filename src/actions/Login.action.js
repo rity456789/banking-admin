@@ -13,7 +13,7 @@ export const DoLogIn = (user) => {
           dispatch(success(res.data.message));
           localStorage.setItem("ACCESS_TOKEN_KEY", res.data.data.accessToken);
           localStorage.setItem("REFRESH_TOKEN_KEY", res.data.data.refreshToken);
-          window.location.href = "/dashboard";
+          dispatch(checkRoleOnly());
         }
       },
       (error) => {
@@ -43,11 +43,39 @@ export const DoLogIn = (user) => {
   }
 };
 
+const checkRoleOnly = () => {
+  return (dispatch) => {
+    getUserInfo().then(
+      (res) => {
+        if (res.data.returnCode === 1) {
+          let userInfo = res.data.data[0];
+          if (userInfo.role == 3) {
+            window.location.href = "/dashboard";
+          } else {
+            localStorage.clear();
+            Swal.fire(
+              "Login failed",
+              "Your permission can't login this page",
+              "error"
+            );
+          }
+        }
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  };
+};
+
 export const doGetUserInfo = () => {
   return (dispatch) => {
     getUserInfo().then(
       (res) => {
-        if (res.data.returnCode === 1) dispatch(success(res.data.data[0]));
+        if (res.data.returnCode === 1) {
+          let userInfo = res.data.data[0];
+          dispatch(success(userInfo));
+        }
       },
       (error) => {
         console.log(error);
