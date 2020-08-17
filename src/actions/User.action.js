@@ -1,29 +1,26 @@
-import { loadUserData } from "../services/userManager";
-import { history } from "../ultis/history";
+import { getUserList, changeUserInfo, deleteUser } from "../services/userManager";
+import Swal from "sweetalert2";
 
-export const loadData = (queryOption) => {
+export const onGetUserList = () => {
   return (dispatch) => {
-    //dispatch(request(queryOption));
-    /*
-        us.loadUserData(user)
-            .then(
-                (res) => {
-                    dispatch(success(res));
-                },
-                (error) => {
-                    dispatch(failure('Can not connect to server'));
-                }
-            );
-            */
-    let res = loadUserData(queryOption);
-    console.log(res);
-    dispatch(success(res));
+    dispatch(request());
+    getUserList().then(
+      (res) => {
+        if (res.data.returnCode === 1) {
+          dispatch(success(res.data.data));
+        }
+        else {
+          dispatch(failure(res.data.message));
+        }
+      },
+      (error) => {
+        dispatch(failure("Can not connect to server"));
+      }
+    );
   };
-
-  function request(user) {
+  function request() {
     return {
       type: "LOAD_USERS_REQUEST",
-      user,
     };
   }
   function success(data) {
@@ -33,9 +30,45 @@ export const loadData = (queryOption) => {
     };
   }
   function failure(message) {
+    Swal.fire("Load user list failed", message, "error")
     return {
       type: "LOAD_USERS_FAILURE",
-      message,
+    };
+  }
+};
+
+
+export const onChangeUserInfo = (username, info) => {
+  return (dispatch) => {
+    dispatch(request());
+    changeUserInfo(username, info).then(
+      (res) => {
+        if (res.data.returnCode === 1) {
+          dispatch(success());
+        }
+        else {
+          dispatch(failure(res.data.message));
+        }
+      },
+      (error) => {
+        dispatch(failure("Can not connect to server"));
+      }
+    );
+  };
+  function request() {
+    return {
+      type: "CHANGE_USER_INFO_REQUEST",
+    };
+  }
+  function success() {
+    return {
+      type: "CHANGE_USER_INFO_SUCCESS",
+    };
+  }
+  function failure(message) {
+    Swal.fire("Load user list failed", message, "error")
+    return {
+      type: "CHANGE_USER_INFO_FAILURE",
     };
   }
 };

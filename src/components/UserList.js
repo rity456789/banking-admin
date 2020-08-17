@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { loadData } from "../actions/User.action";
+import { } from "../actions/User.action";
 
 class UserListComponent extends Component {
   constructor(props) {
@@ -117,9 +117,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onLoadData: (queryOption) => {
-      dispatch(loadData(queryOption));
-    },
+    // onLoadData: () => {
+    //   dispatch(loadData());
+    // },
   };
 };
 
