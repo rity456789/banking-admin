@@ -1,7 +1,7 @@
 const initState = {
   userList: [],
   isLoadingList: false,
-  selectedRole: "Employee"
+  selectedRole: "Admin",
 };
 
 const UsersReducer = (state = initState, action) => {
@@ -15,7 +15,7 @@ const UsersReducer = (state = initState, action) => {
       return {
         ...state,
         userList: action.data,
-        isLoadingList: false
+        isLoadingList: false,
       };
     case "LOAD_USERS_FAILURE":
       return {

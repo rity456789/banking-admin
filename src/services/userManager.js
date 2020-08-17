@@ -6,7 +6,7 @@ function getUserList(role) {
 
 function changeUserInfo(username, info) {
   return axios.put("/api/users/" + username, {
-    ...info
+    ...info,
   });
 }
 

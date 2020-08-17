@@ -1,4 +1,8 @@
-import { getUserList, changeUserInfo, deleteUser } from "../services/userManager";
+import {
+  getUserList,
+  changeUserInfo,
+  deleteUser,
+} from "../services/userManager";
 import Swal from "sweetalert2";
 
 export const onGetUserList = (role) => {
@@ -8,8 +12,7 @@ export const onGetUserList = (role) => {
       (res) => {
         if (res.data.returnCode === 1) {
           dispatch(success(res.data.data));
-        }
-        else {
+        } else {
           dispatch(failure(res.data.message));
         }
       },
@@ -30,13 +33,12 @@ export const onGetUserList = (role) => {
     };
   }
   function failure(message) {
-    Swal.fire("Load user list failed", message, "error")
+    Swal.fire("Load user list failed", message, "error");
     return {
       type: "LOAD_USERS_FAILURE",
     };
   }
 };
-
 
 export const onChangeUserInfo = (username, info) => {
   return (dispatch) => {
@@ -45,8 +47,7 @@ export const onChangeUserInfo = (username, info) => {
       (res) => {
         if (res.data.returnCode === 1) {
           dispatch(success());
-        }
-        else {
+        } else {
           dispatch(failure(res.data.message));
         }
       },
@@ -66,7 +67,7 @@ export const onChangeUserInfo = (username, info) => {
     };
   }
   function failure(message) {
-    Swal.fire("Load user list failed", message, "error")
+    Swal.fire("Load user list failed", message, "error");
     return {
       type: "CHANGE_USER_INFO_FAILURE",
     };
