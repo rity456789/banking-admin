@@ -9,8 +9,12 @@ export const getBanks = () => {
         if (res.data.returnCode === 0) {
           dispatch(failure(res.data.message));
         } else {
-          dispatch(success(res.data.data));
-          console.log(res.data.data);
+          let banks = res.data.data;
+          let options = ["All partner banks"];
+          banks.forEach((value) => {
+            options.push(value.name);
+          });
+          dispatch(success(banks, options));
         }
       },
       (error) => {
@@ -24,10 +28,11 @@ export const getBanks = () => {
       type: "GET_BANKS_REQUEST",
     };
   }
-  function success(banks) {
+  function success(banks, options) {
     return {
       type: "GET_BANKS_SUCCESS",
       banks,
+      options,
     };
   }
   function failure(message) {

@@ -7,12 +7,13 @@ const initState = {
   isLoadingBanks: false,
   isLoadingDealings: false,
   banks: {},
-  selectedBank: "",
+  selectedBank: "All partner banks",
   time: time,
   from: today,
   to: today,
   dealings: [],
   total: 0,
+  options: ["All partner banks"],
 };
 
 const DealingReducer = (state = initState, action) => {
@@ -27,6 +28,7 @@ const DealingReducer = (state = initState, action) => {
         ...state,
         isLoadingBanks: false,
         banks: action.banks,
+        options: action.options,
       };
     case "GET_BANKS_FAILED":
       return {
@@ -34,6 +36,7 @@ const DealingReducer = (state = initState, action) => {
         isLoadingBanks: false,
       };
     case "SELECT_BANK":
+      console.log(action.selectedBank);
       return {
         ...state,
         selectedBank: action.selectedBank,

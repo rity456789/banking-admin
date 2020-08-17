@@ -15,8 +15,6 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { prettierDate, prettierNumber } from "../ultis/helperFunction";
 
-let options = ["All partner banks"];
-let defaultOption = "All partner banks";
 class DealingComponent extends Component {
   constructor(props) {
     super(props);
@@ -49,7 +47,7 @@ class DealingComponent extends Component {
   handleBankChanged(value) {
     let { onSelectBank, onGetDealingInfo } = this.props;
     let selectedBank = value.value;
-    if ((selectedBank = "All partner banks")) selectedBank = "";
+    if (selectedBank == "All partner banks") selectedBank = "";
     onSelectBank(selectedBank);
     let { time, from, to } = this.props.DealingReducer;
     onGetDealingInfo(time, from.getDate(), to.getDate(), selectedBank);
@@ -70,17 +68,14 @@ class DealingComponent extends Component {
 
   render() {
     let {
-      banks,
+      options,
       from,
       to,
       isLoadingBanks,
       isLoadingDealings,
       total,
+      selectedBank,
     } = this.props.DealingReducer;
-    if (banks.length > 0)
-      banks.forEach((value) => {
-        options.push(value.name);
-      });
     return (
       <div className="container-fluid">
         {/* Page Heading */}
@@ -108,7 +103,7 @@ class DealingComponent extends Component {
                     <Dropdown
                       options={options}
                       onChange={(value) => this.handleBankChanged(value)}
-                      value={defaultOption}
+                      value={selectedBank}
                       placeholder="Select an option"
                     />
                   )}

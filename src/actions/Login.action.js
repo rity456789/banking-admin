@@ -49,7 +49,8 @@ const checkRoleOnly = () => {
       (res) => {
         if (res.data.returnCode === 1) {
           let userInfo = res.data.data[0];
-          if (userInfo.role == 3) {
+          console.log(userInfo);
+          if (userInfo.role === "3") {
             window.location.href = "/dashboard";
           } else {
             localStorage.clear();
