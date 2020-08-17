@@ -1,8 +1,7 @@
 const initState = {
-  returnData: [],
-  status: 0,
-  message: "",
-  loading: false,
+  userList: [],
+  isLoadingList: false,
+  selectedRole: "Employee"
 };
 
 const UsersReducer = (state = initState, action) => {
@@ -10,26 +9,23 @@ const UsersReducer = (state = initState, action) => {
     case "LOAD_USERS_REQUEST":
       return {
         ...state,
-        returnData: [],
-        status: 0,
-        message: "",
-        loading: true,
+        isLoadingList: true,
       };
     case "LOAD_USERS_SUCCESS":
       return {
         ...state,
-        returnData: action.data,
-        status: 1,
-        message: "",
-        loading: false,
+        userList: action.data,
+        isLoadingList: false
       };
     case "LOAD_USERS_FAILURE":
       return {
         ...state,
-        returnData: [],
-        status: -1,
-        message: action.message,
-        loading: false,
+        isLoadingList: false,
+      };
+    case "SELECTED_ROLE_CHANGED":
+      return {
+        ...state,
+        selectedRole: action.role,
       };
     default:
       return state;

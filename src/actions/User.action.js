@@ -1,10 +1,10 @@
 import { getUserList, changeUserInfo, deleteUser } from "../services/userManager";
 import Swal from "sweetalert2";
 
-export const onGetUserList = () => {
+export const onGetUserList = (role) => {
   return (dispatch) => {
     dispatch(request());
-    getUserList().then(
+    getUserList(role).then(
       (res) => {
         if (res.data.returnCode === 1) {
           dispatch(success(res.data.data));
@@ -71,4 +71,11 @@ export const onChangeUserInfo = (username, info) => {
       type: "CHANGE_USER_INFO_FAILURE",
     };
   }
+};
+
+export const selectRole = (role) => {
+  return {
+    type: "SELECTED_ROLE_CHANGED",
+    role: role,
+  };
 };

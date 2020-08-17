@@ -104,7 +104,7 @@ class DealingComponent extends Component {
                       options={options}
                       onChange={(value) => this.handleBankChanged(value)}
                       value={selectedBank}
-                      placeholder="Select an option"
+                      placeholder="Select bank"
                     />
                   )}
                 </div>

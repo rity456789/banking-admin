@@ -1,11 +1,17 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { } from "../actions/User.action";
+import { onGetUserList, selectRole } from "../actions/User.action";
+import Dropdown from "react-dropdown";
+
 
 class UserListComponent extends Component {
   constructor(props) {
     super(props);
-    this.generateUserData();
+  }
+
+  componentDidMount() {
+    let { selectedRole } = this.props.UsersReducer
+    this.getUserDate(selectedRole);
   }
 
   detailClick(id) {
@@ -16,42 +22,48 @@ class UserListComponent extends Component {
     console.log("add new user");
   }
 
-  generateUserData() {
-    let { onLoadData } = this.props;
-    onLoadData(null);
+  getUserDate(selectedRole) {
+    let { getUserList } = this.props;
+
+    if (selectedRole === "Customer") {
+      getUserList("1");
+    }
+    else if (selectedRole === "Employee") {
+      getUserList("2");
+    }
+    else if (selectedRole === "Admin") {
+      getUserList("3");
+    }
   }
 
   generateContent() {
-    let { returnData, status, message, loading } = this.props.UsersReducer;
+    let { userList } = this.props.UsersReducer;
     let content = [];
-    console.log("data in comp");
-    console.log(returnData);
-    for (let e of returnData) {
-      let imgSrc = e.avatarLink;
-      if (imgSrc === "") {
-        imgSrc =
-          "https://scontent.xx.fbcdn.net/v/t1.0-1/c15.0.50.50a/p50x50/10645251_10150004552801937_4553731092814901385_n.jpg?_nc_cat=1&_nc_ohc=hnKkw-bKtIkAQlIhz4gzarCWd3tTja6CU5x12XZnI2YTuW9TiBuSlIBlQ&_nc_ht=scontent.xx&oh=64b6c755de54ecae67c9742219d23174&oe=5E7F1EA8";
-      }
-      console.log(e);
-      content.push(
-        <tr key={e.id}>
-          <td>{e.id}</td>
-          <td>
-            <img height={50} width={50} alt="user-avatar" src={imgSrc}></img>
-          </td>
-          <td>{e.name}</td>
-          <td>{e.email}</td>
-          <td>{e.phone}</td>
-          <td className="cursor-pointer" onClick={() => this.detailClick(e.id)}>
-            <i className="fa fa-angle-right"></i>
-          </td>
-        </tr>
-      );
-    }
-    return content;
+    userList.forEach((value, index) => {
+      content.push(<tr key={index}>
+        <td>{value.id}</td>
+        <td>{value.username}</td>
+        <td>{value.name}</td>
+        <td>{value.email}</td>
+        <td>{value.phone}</td>
+        <td>{value.identity_number}</td>
+        <td className="cursor-pointer" onClick={() => this.detailClick(value.id)}>
+          <i className="fa fa-angle-right"></i>
+        </td>
+      </tr>)
+    })
+    return content
+  }
+
+  handleRoleChange(value) {
+    let { changeRole } = this.props;
+    let selectedRole = value.value;
+    changeRole(selectedRole);
+    this.getUserDate(selectedRole);
   }
 
   render() {
+    let { selectedRole } = this.props.UsersReducer
     return (
       <div className="container-fluid">
         {/* Page Heading */}
@@ -69,20 +81,17 @@ class UserListComponent extends Component {
                   <i className="fa fa-plus"></i> | Add new
                 </button>
               </div>
-              <div className="col-3 text-right">
+              <div className="col-3">
                 <div className="input-group mb-3">
-                  <input
-                    type="text"
-                    className="form-control"
-                    placeholder="Search ..."
+                  <Dropdown
+                    options={["Customer", "Employee", "Admin"]}
+                    onChange={(value) => this.handleRoleChange(value)}
+                    value={selectedRole}
+                    placeholder="Select a role"
                   />
-                  <div className="input-group-append">
-                    <button className="btn btn-outline-secondary" type="button">
-                      <i className="fa fa-search"></i>
-                    </button>
-                  </div>
                 </div>
               </div>
+
             </div>
             <div className="table-responsive">
               <table
@@ -94,10 +103,11 @@ class UserListComponent extends Component {
                 <thead className="thead-dark">
                   <tr>
                     <th>Id</th>
-                    <th>Avatar</th>
+                    <th>Username</th>
                     <th>Name</th>
                     <th>Email</th>
                     <th>Phone</th>
+                    <th>Identity number</th>
                     <th></th>
                   </tr>
                 </thead>
@@ -117,9 +127,12 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    // onLoadData: () => {
-    //   dispatch(loadData());
-    // },
+    getUserList: (role) => {
+      dispatch(onGetUserList(role));
+    },
+    changeRole: (role) => {
+      dispatch(selectRole(role));
+    }
   };
 };
 
