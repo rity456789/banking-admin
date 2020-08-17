@@ -42,36 +42,45 @@ export const onGetUserList = (role) => {
 
 export const onChangeUserInfo = (username, info) => {
   return (dispatch) => {
-    dispatch(request());
     changeUserInfo(username, info).then(
       (res) => {
         if (res.data.returnCode === 1) {
-          dispatch(success());
+          Swal.fire("Updated!", "This user has been updated.", "success");
         } else {
-          dispatch(failure(res.data.message));
+          Swal.fire("Changed user info failed", res.data.message, "error");
         }
       },
       (error) => {
-        dispatch(failure("Can not connect to server"));
+        Swal.fire(
+          "Changed user info failed",
+          "Can not connect to server",
+          "error"
+        );
       }
     );
   };
-  function request() {
-    return {
-      type: "CHANGE_USER_INFO_REQUEST",
-    };
-  }
-  function success() {
-    return {
-      type: "CHANGE_USER_INFO_SUCCESS",
-    };
-  }
-  function failure(message) {
-    Swal.fire("Load user list failed", message, "error");
-    return {
-      type: "CHANGE_USER_INFO_FAILURE",
-    };
-  }
+};
+
+export const onDeleteUser = (id, role) => {
+  return (dispatch) => {
+    deleteUser(id).then(
+      (res) => {
+        if (res.data.returnCode === 1) {
+          dispatch(onGetUserList(role));
+          Swal.fire("Deleted!", "This user has been deleted.", "success");
+        } else {
+          Swal.fire("Load user list failed", res.data.message, "error");
+        }
+      },
+      (error) => {
+        Swal.fire(
+          "Load user list failed",
+          "Can not connect to server",
+          "error"
+        );
+      }
+    );
+  };
 };
 
 export const selectRole = (role) => {

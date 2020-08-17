@@ -1,6 +1,11 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { onGetUserList, selectRole } from "../actions/User.action";
+import {
+  onGetUserList,
+  selectRole,
+  onChangeUserInfo,
+  onDeleteUser,
+} from "../actions/User.action";
 import Dropdown from "react-dropdown";
 import UserRow from "./UserRow";
 
@@ -26,8 +31,23 @@ class UserListComponent extends Component {
     }
   }
 
-  saveUser() {
-    console.log("hahah");
+  changeUserInfo(user) {
+    let username = user.username;
+    let info = {
+      name: user.name,
+      email: user.email,
+      phone: user.phone,
+      role: user.role,
+      identity_number: user.identity_number,
+    };
+    let { changeUserInfo } = this.props;
+    changeUserInfo(username, info);
+  }
+
+  deleteUser(id) {
+    let { deleteUser } = this.props;
+    let { selectedRole } = this.props.UsersReducer;
+    deleteUser(id, selectedRole);
   }
 
   generateContent() {
@@ -38,7 +58,8 @@ class UserListComponent extends Component {
         <UserRow
           key={value.id}
           value={value}
-          save={() => this.saveUser()}
+          save={(user) => this.changeUserInfo(user)}
+          delete={(id) => this.deleteUser(id)}
         ></UserRow>
       );
     });
@@ -118,6 +139,12 @@ const mapDispatchToProps = (dispatch) => {
     },
     changeRole: (role) => {
       dispatch(selectRole(role));
+    },
+    changeUserInfo: (username, info) => {
+      dispatch(onChangeUserInfo(username, info));
+    },
+    deleteUser: (id, role) => {
+      dispatch(onDeleteUser(id, role));
     },
   };
 };

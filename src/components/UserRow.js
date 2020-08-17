@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import Swal from "sweetalert2";
 
 export default class UserRow extends Component {
   constructor(props) {
@@ -15,8 +16,20 @@ export default class UserRow extends Component {
 
   saveUser(id) {
     console.log("Save user: ", id);
-    this.setState({ isEditing: false });
-    this.props.save();
+    Swal.fire({
+      title: "Warning!!!",
+      text: "Are you sure to update this user?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes!!",
+    }).then((result) => {
+      if (result.value) {
+        this.setState({ isEditing: false });
+        this.props.save(this.state.user);
+      }
+    });
   }
 
   cancelEditUser(id) {
@@ -27,6 +40,19 @@ export default class UserRow extends Component {
 
   deleteUser(id) {
     console.log("Delete user: ", id);
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.value) {
+        this.props.delete(id);
+      }
+    });
   }
 
   render() {
@@ -37,7 +63,7 @@ export default class UserRow extends Component {
           <tr>
             <td>{user.id}</td>
             <td>
-              <input
+              {/* <input
                 type="text"
                 defaultValue={user.username}
                 id="username_input"
@@ -50,7 +76,8 @@ export default class UserRow extends Component {
                   };
                   this.setState({ user: user });
                 }}
-              />
+              /> */}
+              {user.username}
             </td>
             <td>
               <input
