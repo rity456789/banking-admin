@@ -47,6 +47,13 @@ class UserListComponent extends Component {
   deleteUser(id) {
     let { deleteUser } = this.props;
     let { selectedRole } = this.props.UsersReducer;
+    if (selectedRole === "Customer") {
+      selectedRole = "1";
+    } else if (selectedRole === "Employee") {
+      selectedRole = "2";
+    } else if (selectedRole === "Admin") {
+      selectedRole = "3";
+    }
     deleteUser(id, selectedRole);
   }
 
