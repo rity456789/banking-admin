@@ -52,12 +52,23 @@ class DealingComponent extends Component {
     return content;
   }
 
+  mappingBank(selectedBank) {
+    let { banks } = this.props.DealingReducer;
+    let rs = "";
+    banks.forEach((bank) => {
+      if (selectedBank === bank.name) rs = bank.bankcode;
+    });
+    return rs;
+  }
+
   handleBankChanged(value) {
     let { onSelectBank, onGetDealingInfo } = this.props;
     let selectedBank = value.value;
-    if (selectedBank === "All partner banks") selectedBank = "";
     onSelectBank(selectedBank);
+    if (selectedBank === "All partner banks") selectedBank = "";
     let { time, from, to } = this.props.DealingReducer;
+    // change bank name to bank code and call api
+    selectedBank = this.mappingBank(selectedBank);
     onGetDealingInfo(time, from.getDate(), to.getDate(), selectedBank);
   }
 
@@ -66,6 +77,8 @@ class DealingComponent extends Component {
     onSelectFrom(from);
     let { time, selectedBank, to } = this.props.DealingReducer;
     if (selectedBank === "All partner banks") selectedBank = "";
+    // change bank name to bank code and call api
+    selectedBank = this.mappingBank(selectedBank);
     onGetDealingInfo(time, from.getDate(), to.getDate(), selectedBank);
   }
   handleToDateChanged(to) {
@@ -73,6 +86,8 @@ class DealingComponent extends Component {
     onSelectTo(to);
     let { time, from, selectedBank } = this.props.DealingReducer;
     if (selectedBank === "All partner banks") selectedBank = "";
+    // change bank name to bank code and call api
+    selectedBank = this.mappingBank(selectedBank);
     onGetDealingInfo(time, from.getDate(), to.getDate(), selectedBank);
   }
 
