@@ -12,7 +12,6 @@ export const prettierNumber = (number) => {
 export const prettierDate = (date) => {
   date *= 1000;
   let newDate = new Date(date);
-  console.log(newDate);
   let month = newDate.getMonth() + 1;
   return newDate.getDate() + "/" + month + "/" + newDate.getFullYear();
 };

@@ -54,10 +54,11 @@ export const getDealingInfo = (time, from, to, name) => {
           let dealings = res.data.data;
           let total = 0;
           dealings.forEach((value) => {
-            total += value.money;
+            let money = value.money;
+            if (money < 0) money = -money;
+            total += money;
           });
           dispatch(success(dealings, total));
-          console.log(res.data.data);
         }
       },
       (error) => {

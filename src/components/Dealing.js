@@ -23,6 +23,7 @@ class DealingComponent extends Component {
     let { onGetBanks, onGetDealingInfo } = this.props;
     onGetBanks();
     let { selectedBank, time, from, to } = this.props.DealingReducer;
+    if (selectedBank === "All partner banks") selectedBank = "";
     onGetDealingInfo(time, from.getDate(), to.getDate(), selectedBank);
   }
 
@@ -30,14 +31,21 @@ class DealingComponent extends Component {
     let { dealings } = this.props.DealingReducer;
     let content = [];
     dealings.forEach((value, index) => {
-      console.log(value.time);
       content.push(
         <tr key={index}>
           <td>{value.sender}</td>
           <td>{value.receiver}</td>
           <td>{value.name}</td>
           <td>{prettierDate(value.time)}</td>
-          <td>{prettierNumber(value.money) + " VNĐ"}</td>
+          {value.money > 0 ? (
+            <td className="text-success">
+              {prettierNumber(value.money) + " VNĐ"}
+            </td>
+          ) : (
+            <td className="text-danger">
+              {prettierNumber(-value.money) + " VNĐ"}
+            </td>
+          )}
         </tr>
       );
     });
@@ -47,7 +55,7 @@ class DealingComponent extends Component {
   handleBankChanged(value) {
     let { onSelectBank, onGetDealingInfo } = this.props;
     let selectedBank = value.value;
-    if (selectedBank == "All partner banks") selectedBank = "";
+    if (selectedBank === "All partner banks") selectedBank = "";
     onSelectBank(selectedBank);
     let { time, from, to } = this.props.DealingReducer;
     onGetDealingInfo(time, from.getDate(), to.getDate(), selectedBank);
@@ -57,12 +65,14 @@ class DealingComponent extends Component {
     let { onSelectFrom, onGetDealingInfo } = this.props;
     onSelectFrom(from);
     let { time, selectedBank, to } = this.props.DealingReducer;
+    if (selectedBank === "All partner banks") selectedBank = "";
     onGetDealingInfo(time, from.getDate(), to.getDate(), selectedBank);
   }
   handleToDateChanged(to) {
     let { onSelectTo, onGetDealingInfo } = this.props;
     onSelectTo(to);
     let { time, from, selectedBank } = this.props.DealingReducer;
+    if (selectedBank === "All partner banks") selectedBank = "";
     onGetDealingInfo(time, from.getDate(), to.getDate(), selectedBank);
   }
 

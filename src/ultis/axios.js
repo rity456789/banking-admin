@@ -3,7 +3,7 @@ import { MyStore } from "../";
 import { history } from "./history";
 
 let axios = Axios.create({
-  baseURL: "http://localhost:8000/",
+  baseURL: "https://bankdbb.herokuapp.com/",
   headers: { "Content-Type": "application/json" },
 });
 
