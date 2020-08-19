@@ -26,7 +26,7 @@ class LoginComponent extends Component {
   }
 
   render() {
-    let { isLoading } = this.props.LoginReducer;
+    let { loading } = this.props.LoginReducer;
     return (
       <div>
         <div className="container">
@@ -63,7 +63,7 @@ class LoginComponent extends Component {
                               ref="password"
                             />
                           </div>
-                          {isLoading ? (
+                          {loading ? (
                             <div class="d-flex justify-content-center">
                               <div
                                 class="spinner-border text-primary"
