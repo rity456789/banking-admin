@@ -24,7 +24,9 @@ class DealingComponent extends Component {
     onGetBanks();
     let { selectedBank, time, from, to } = this.props.DealingReducer;
     if (selectedBank === "All partner banks") selectedBank = "";
-    onGetDealingInfo(time, from.getDate(), to.getDate(), selectedBank);
+    let realEndDay = new Date(to);
+    realEndDay.setDate(to.getDate() + 1);
+    onGetDealingInfo(time, from.getDate(), realEndDay.getDate(), selectedBank);
   }
 
   generateContent() {
@@ -69,7 +71,9 @@ class DealingComponent extends Component {
     let { time, from, to } = this.props.DealingReducer;
     // change bank name to bank code and call api
     selectedBank = this.mappingBank(selectedBank);
-    onGetDealingInfo(time, from.getDate(), to.getDate(), selectedBank);
+    let realEndDay = new Date(to);
+    realEndDay.setDate(to.getDate() + 1);
+    onGetDealingInfo(time, from.getDate(), realEndDay.getDate(), selectedBank);
   }
 
   handleFromDateChanged(from) {
@@ -79,7 +83,9 @@ class DealingComponent extends Component {
     if (selectedBank === "All partner banks") selectedBank = "";
     // change bank name to bank code and call api
     selectedBank = this.mappingBank(selectedBank);
-    onGetDealingInfo(time, from.getDate(), to.getDate(), selectedBank);
+    let realEndDay = new Date(to);
+    realEndDay.setDate(to.getDate() + 1);
+    onGetDealingInfo(time, from.getDate(), realEndDay.getDate(), selectedBank);
   }
   handleToDateChanged(to) {
     let { onSelectTo, onGetDealingInfo } = this.props;
@@ -88,7 +94,9 @@ class DealingComponent extends Component {
     if (selectedBank === "All partner banks") selectedBank = "";
     // change bank name to bank code and call api
     selectedBank = this.mappingBank(selectedBank);
-    onGetDealingInfo(time, from.getDate(), to.getDate(), selectedBank);
+    let realEndDay = new Date(to);
+    realEndDay.setDate(to.getDate() + 1);
+    onGetDealingInfo(time, from.getDate(), realEndDay.getDate(), selectedBank);
   }
 
   render() {
@@ -104,12 +112,12 @@ class DealingComponent extends Component {
     return (
       <div className="container-fluid">
         {/* Page Heading */}
-        <h1 className="h3 mb-2 text-gray-800">Users table</h1>
-        <p className="mb-4">Users list of people who use INTERNET BANKING</p>
+        <h1 className="h3 mb-2 text-gray-800">Dealings table</h1>
+        <p className="mb-4">List of trade in this month</p>
         {/* DataTales Example */}
         <div className="card shadow mb-4">
           <div className="card-header py-3">
-            <h6 className="m-0 font-weight-bold text-primary">Users</h6>
+            <h6 className="m-0 font-weight-bold text-primary">Dealings</h6>
           </div>
           <div className="card-body">
             <div className="row my-1">

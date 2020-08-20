@@ -81,7 +81,7 @@ class UserListComponent extends Component {
   }
 
   render() {
-    let { selectedRole } = this.props.UsersReducer;
+    let { selectedRole, isLoadingList } = this.props.UsersReducer;
     return (
       <div className="container-fluid">
         {/* Page Heading */}
@@ -125,7 +125,15 @@ class UserListComponent extends Component {
                     <th></th>
                   </tr>
                 </thead>
-                <tbody>{this.generateContent()}</tbody>
+                {isLoadingList ? (
+                  <div className="loading" key={1}>
+                    <div className="spinner-border text-primary" role="status">
+                      <span className="sr-only">Loading...</span>
+                    </div>
+                  </div>
+                ) : (
+                  <tbody>{this.generateContent()}</tbody>
+                )}
               </table>
             </div>
           </div>

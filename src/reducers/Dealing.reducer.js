@@ -1,8 +1,7 @@
 let today = new Date();
-let month = today.getMonth();
+let month = today.getMonth() + 1;
 if (month < 10) month = "0" + month;
 let time = "" + month + today.getFullYear();
-// time = "052020";
 const initState = {
   isLoadingBanks: false,
   isLoadingDealings: false,
