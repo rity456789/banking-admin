@@ -1,4 +1,6 @@
 let today = new Date();
+var yesterday = new Date();
+yesterday.setDate(yesterday.getDate() - 1);
 let month = today.getMonth() + 1;
 if (month < 10) month = "0" + month;
 let time = "" + month + today.getFullYear();
@@ -8,7 +10,7 @@ const initState = {
   banks: {},
   selectedBank: "All partner banks",
   time: time,
-  from: today,
+  from: yesterday,
   to: today,
   dealings: [],
   total: 0,
